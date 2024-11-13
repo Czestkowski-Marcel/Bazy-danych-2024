@@ -1,0 +1,111 @@
+zad 1
+create table postac(id_postaci INTEGER primary key auto_increment, imie varchar(40), rodzaj ENUM('wiking','ptak','kobieta'), data_ur DATE, wiek INTEGER UNSIGNED);
+
+insert into postac(imie,rodzaj,data_ur,wiek) VALUES ('bjorn','wiking','1975-11-23',48),('drozd','ptak','2023-11-23',1),('tesciowa','kobieta','1900-11-23',124);
+
+update postac set wiek=88 where imie='tesciowa';
+
+Zad 2
+
+create table walizka(id_walizki INTEGER auto_increment primary key, pojemnosc INTEGER UNSIGNED, kolor ENUM('rozowy','czerwony','teczowy','zolty'),id_wlasciciela INTEGER, FOREIGN KEY(id_wlasciciela) REFERENCES postac(id_postaci) ON DELETE CASCADE);
+
+alter table walizka MODIFY kolor ENUM('rozowy','czerwony','teczowy','zolty') DEFAULT 'rozowy';
+
+insert into walizka (pojemnosc, kolor, id_wlasciciela) VALUES ('20','czerwony','3');
+
+insert into walizka (pojemnosc, id_wlasciciela) VALUES ('20','1');
+
+
+
+
+zad 3 
+
+create table izba(adres_budynku varchar(100), nazwa_izby varchar(100),PRIMARY KEY(adres_budynku, nazwa_izby), id_wlasciciel INTEGER, metraz INTEGER UNSIGNED, FOREIGN KEY(id_wlasciciel) REFERENCES postac(id_postaci) ON DELETE SET NULL);
+
+alter table izba add kolor_izby varchar(100) after nazwa_izby;
+
+alter table izba MODIFY kolor_izby varchar(40) DEFAULT "czarny";
+
+insert into izba (adres_budynku, nazwa_izby, id_wlasciciel,metraz) VALUES ('wyimaginowana-13','spizarnia',1,35);
+
+zad 4
+
+create table przetwory(
+id_przetworu integer primary key,
+ rok_produkcji year default 1901,
+ id_wykonawcy integer,
+ FOREIGN KEY(id_wykonawcy) references postac(id_postaci),
+ zawartosc char(255),
+ dodatek char(255),
+ id_konsumenta integer,
+ foreign key (id_konsumenta) references postac(id_postaci)
+ );
+
+------
+
+alter table przetwory MODIFY dodatek char(25) DEFAULT "chilli";
+
+------
+
+insert into przetwory (
+id_przetworu,
+id_wykonawcy,
+zawartosc,
+id_konsumenta)
+ VALUES
+ ('1','1','bigos','3');
+
+zad 5
+insert into postac (imie,rodzaj,data_ur,wiek) VALUES ("Marcel","wiking","1972-11-23", 45);
+insert into postac (imie,rodzaj,data_ur,wiek) VALUES ("Arek","wiking","1972-11-23", 45);
+insert into postac (imie,rodzaj,data_ur,wiek) VALUES ("Lukasz","wiking","1969-11-23", 42);
+insert into postac (imie,rodzaj,data_ur,wiek) VALUES ("Pawel","wiking","1967-11-23", 40);
+insert into postac (imie,rodzaj,data_ur,wiek) VALUES ("Wojtek","wiking","1947-11-23", 60);
+
+Create table statek(
+nazwa_statku varchar(40) PRIMARY KEY,
+rodzaj_statku ENUM("Okręt_Flagowy"),
+data_wodowania DATE,
+max_ladownosc integer unsigned
+ );
+
+-----
+
+insert into statek(
+nazwa_statku, 
+rodzaj_statku, 
+max_ladownosc)
+ VALUES
+ ("UWM","Okręt_Flagowy", 400),
+ ("Statek_Bjorna","Okręt_Flagowy", 400);
+
+---------
+
+alter table postac add funkcja char(100);
+
+-----------
+
+alter table postac add column statek varchar(40);
+
+-------
+
+alter table postac add foreign key (statek) references statek(nazwa_statku);
+
+-----------
+
+update postac set statek='UWM' where imie='Marcel';
+update postac set statek='UWM' where imie='Lukasz';
+update postac set statek='UWM' where imie='Pawel';
+update postac set statek='UWM' where imie='Wojtek';
+update postac set statek='UWM' where imie='Arek';
+update postac set statek='Statek_Bjorna' where imie='bjorn';
+update postac set statek='Statek_Bjorna' where imie='drozd';
+
+-------
+
+drop table izba;
+
+
+
+
+
