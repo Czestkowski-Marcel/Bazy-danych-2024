@@ -1,0 +1,79 @@
+zad 1
+
+delete from postac where imie = "Arek";
+delete from postac where imie = "Wojtek";
+
+-------
+
+
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1;
+
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+
+alter table postac modify id_postaci int;
+
+ALTER TABLE postac DROP PRIMARY KEY; 
+
+zad 2
+
+alter table postac CHANGE COLUMN id_postaci pesel char(11);
+alter table postac CHANGE COLUMN rodzaj rodzaj ENUM('wiking','ptak','kobieta','syrena');
+
+insert into postac (pesel,imie,rodzaj,data_ur,wiek) VALUES ("21372137213","Gertruda Nieszczera","syrena","2000-11-23", 24)
+
+zad 3
+
+update postac set statek = "Statek_Bjorna" where imie LIKE '%a%';
+
+##nie miałem ustawionej żadnej daty_wodowania##
+update statek set max_ladownosc = max_ladownosc*0.7 where nazwa_statku = "Statek_Bjorna";
+alter table postac add constraint wiek_check CHECK (wiek <= 1000);
+
+zad 4
+
+alter table postac CHANGE COLUMN rodzaj rodzaj ENUM('wiking','ptak','kobieta','syrena','wąż');
+
+insert into postac (imie,rodzaj,data_ur,wiek) VALUES ("Waz Loko","waz","1900-11-23", 124);
+
+create table marynarz(
+pesel char(11) primary key,
+imie varchar(40),
+rodzaj ENUM('wiking','ptak','kobieta','syrena','wąż'),
+data_ur DATE,
+wiek INTEGER UNSIGNED,
+funkcja char(100),
+statek varchar(40),
+foreign key (statek) references statek(nazwa_statku)
+);
+
+insert into marynarz (pesel,imie,rodzaj,data_ur,wiek,funkcja,statek) VALUES (1,"bjorn","wiking","1975-11-23", 48,"kapitan","Statek_Bjorna");
+insert into marynarz (pesel,imie,rodzaj,data_ur,wiek,funkcja,statek) VALUES (2,"drozd","ptak","1975-11-23", 1,"papuga","Statek_Bjorna");
+insert into marynarz (pesel,imie,rodzaj,data_ur,wiek,statek) VALUES (3,"teściowa","kobieta","1900-11-23", 88,"Statek_Bjorna");
+insert into marynarz (pesel,imie,rodzaj,data_ur,wiek,funkcja,statek) VALUES (4,"Marcel","wiking","1972-11-23", 45,"kapitan","Statek_Bjorna");
+insert into marynarz (pesel,imie,rodzaj,data_ur,wiek,funkcja,statek) VALUES (5,"Lukasz","wiking","1969-11-23", 42,"majtek","Statek_Bjorna");
+insert into marynarz (pesel,imie,rodzaj,data_ur,wiek,funkcja,statek) VALUES (6,"Pawel","wiking","1967-11-23", 40,"majtek","Statek_Bjorna");
+insert into marynarz (pesel,imie,rodzaj,data_ur,wiek,statek) VALUES (21372137213,"Gertruda Nieszczera","syrena","2000-11-23", 24,"Statek_Bjorna");
+
+delete from postac where imie="Pawel";
+delete from marynarz where imie="Pawel";
+
+
+update postac set statek=NULL where wiek<90;
+
+alter table postac drop foreign key postac_ibfk_1;
+
+alter table marynarz drop foreign key marynarz_ibfk_1;
+
+drop table statek;
+
+create table zwierz(
+id INTEGER primary key auto_increment,
+imie char(40),
+wiek INTEGER UNSIGNED
+);
+insert into zwierz(imie,wiek) VALUES ("waz loko",124);
+insert into zwierz(imie,wiek) VALUES ("drozd",1);
+delete from postac where imie="drozd";
+delete from postac where imie="waz loko";
