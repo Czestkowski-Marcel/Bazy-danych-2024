@@ -1,0 +1,30 @@
+ZAD 1
+CREATE TABLE ekwipunek AS
+SELECT * FROM wikingowie.ekwipunek;
+select * from zasob;
+select * from zasob where rodzaj="jedzenie";
+select idZasobu,ilosc from zasob where idZasobu=1||idZasobu=3||idZasobu=5;
+
+ZAD 2
+select * from kreatura where udzwig>50 && rodzaj != "wiedzma";
+select * from zasob where waga>=2 AND waga<=5;
+select nazwa from kreatura where nazwa LIKE '%or%' AND udzwig>=30 AND udzwig<=70;
+
+ZAD 3
+SELECT * FROM zasob WHERE MONTH(dataPozyskania) IN (7, 8);
+SELECT rodzaj FROM zasob ORDER BY waga ASC;
+SELECT * FROM kreatura ORDER BY dataUr ASC LIMIT 5; 
+
+ZAD 4
+select distinct rodzaj from zasob;
+select concat(nazwa,rodzaj) AS test FROM zasob where rodzaj LIKE"%wi%"; 
+select nazwa,concat(waga*ilosc) AS calkowita from zasob where dataPozyskania between '2000-01-01' AND '2007-01-01';
+
+ZAD 5
+select * from zasob where rodzaj is NULL;
+select distinct rodzaj from zasob where nazwa LIKE 'Ba%' OR nazwa LIKE '%os';
+
+
+
+
+
