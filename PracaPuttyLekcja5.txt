@@ -1,0 +1,26 @@
+ZAD 1
+create table uczestnicy as select * from wikingowie.uczestnicy;
+create table etapy_wyprawy as select * from wikingowie.etapy_wyprawy;
+create table sektor as select * from wikingowie.sektor;
+create table wyprawa as select * from wikingowie.wyprawa;
+
+
+select nazwa from kreatura left join uczestnicy ON idKreatury=id_uczestnika where id_uczestnika is null;
+
+
+SELECT wyprawa.nazwa, SUM(ekwipunek.ilosc) AS suma_ilości, kreatura.nazwa FROM wyprawa
+INNER JOIN ekwipunek ON wyprawa.kierownik = ekwipunek.idKreatury
+INNER JOIN uczestnicy ON u1.id_wyprawy = wyprawa.id_wyprawy
+INNER JOIN kreatura ON kreatura.idKreatury = wyprawa.kierownik
+GROUP BY wyprawa.nazwa, kreatura.nazwa;
+
+ZAD 2
+
+SELECT wyprawa.nazwa, count(uczestnicy.id_uczestnika) as liczba_uczestników, group_concat(kreatura.nazwa) as imiona_uczestników from wyprawa
+INNER JOIN uczestnicy ON uczestnicy.id_wyprawy = wyprawa.id_wyprawy
+INNER JOIN kreatura ON uczestnicy.id_uczestnika = kreatura.idKreatury GROUP BY wyprawa.nazwa;
+
+ZAD 4
+select idWyprawy,length(dziennik) FROM etapy_wyprawy where length(dziennik)<400;
+
+SELECT wyprawa.nazwa
